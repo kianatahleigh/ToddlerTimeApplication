@@ -2,9 +2,370 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Toddler Time - Parent SignUp</title>
 </head>
+<style>
+    body {
+        background-color: #ffeb3b; /* Bright yellow */
+        font-family: 'Comic Sans MS', sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        min-height: 100vh;
+        overflow-y: auto; /* Allows scrolling */
+    }
+
+    h1 {
+        color: #e91e63; /* Pink */
+        text-align: center;
+        font-size: 3em;
+        margin-bottom: 20px;
+        animation: bounce 1s ease-in-out;
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+        40% {
+            transform: translateY(-30px);
+        }
+        60% {
+            transform: translateY(-15px);
+        }
+    }
+
+    form {
+        background-color: #03a9f4; /* Sky blue */
+        padding: 40px;
+        border-radius: 30px;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        width: 350px;
+        position: relative;
+        z-index: 1;
+        border: 3px solid #ffffff;
+        margin: 20px 0; /* Adds margin to make form scrollable when tall */
+    }
+
+    label {
+        font-size: 1.2em;
+        color: white;
+    }
+
+    input[type="text"], input[type="password"], input[type="email"] {
+        padding: 15px;
+        margin-top: 10px;
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        font-size: 1em;
+        background-color: #ffffff;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    button {
+        background-color: #ff5722; /* Bright orange */
+        color: white;
+        font-size: 1.2em;
+        border: none;
+        padding: 15px 25px;
+        border-radius: 20px;
+        margin-top: 30px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    button:hover {
+        background-color: #e64a19;
+        transform: scale(1.1);
+    }
+
+    /* Fun background shapes */
+    .shapes-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh; /* Full height of the viewport */
+        overflow: hidden;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .shape {
+        position: absolute;
+        opacity: 0.5;
+        background-color: rgba(255, 255, 255, 0.5);
+        z-index: 0;
+    }
+
+    .shape.circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+
+    .shape.triangle {
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent;
+        border-right: 50px solid transparent;
+        border-bottom: 100px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .shape.square {
+        width: 80px;
+        height: 80px;
+    }
+
+    /* Position the shapes randomly */
+    .shape:nth-child(1) { top: 10%; left: 15%; }
+    .shape:nth-child(2) { top: 40%; left: 50%; }
+    .shape:nth-child(3) { top: 70%; left: 30%; }
+    .shape:nth-child(4) { top: 85%; left: 75%; }
+    .shape:nth-child(5) { top: 20%; left: 80%; }
+
+    .shapes-container .shape {
+        animation: floatShapes 15s infinite alternate ease-in-out;
+    }
+
+    @keyframes floatShapes {
+        0% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(-30px);
+        }
+    }
+
+    .additional-links {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .additional-links a {
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 1em;
+        display: block;
+        margin-top: 10px;
+    }
+
+    .additional-links a:hover {
+        text-decoration: underline;
+    }
+</style>
 <body>
 
+<div class="shapes-container">
+    <!-- Fun background shapes -->
+    <div class="shape circle"></div>
+    <div class="shape triangle"></div>
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+</div>
+
+<form id="signupForm">
+    <h1>Parent Sign Up</h1>
+    <p>Please fill in this form to create an account.</p>
+    <hr>
+
+    <div>
+        <label for="fname">First Name:</label>
+        <input type="text" name="fname" id="fname" required />
+        <div id="error"></div>
+    </div>
+    <br>
+    <div>
+        <label for="lname">Last Name:</label>
+        <input type="text" name="lname" id="lname" required />
+        <div id="error1"></div>
+    </div>
+
+    <div>
+        <label for="email">Email:</label><br>
+        <input type="text" name="email" id="email" required
+               pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+               title="Has to be valid Email"/>
+        <div id="error2"></div>
+    </div>
+
+    <div>
+        <label for="pid">Password:</label><br>
+        <input type="password" name="pid" id="pid" required
+               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+               title="Must contain at least one number, one uppercase, and one lowercase letter, and be at least 8 characters long" />
+        <div id="error3"></div>
+    </div>
+    <br>
+
+    <div>
+        <label for="prid">Confirm Password:</label>
+        <input type="password" id="prid" name="prid" required
+               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+               title="Must match original password"/>
+        <div id="error4"></div>
+    </div>
+    <br>
+
+    <div>
+        <label for="birthday">Birthday:</label>
+        <input type="date" name="birthday" id="birthday" required />
+        <div id="error5"></div>
+        <div id="days"></div>
+    </div>
+
+    <div>
+        <label for="childrenCount">Number of Children:</label>
+        <input type="number" name="childrenCount" id="childrenCount" min="0" required />
+        <button type="button" onclick="createChildFields()">Add Children</button>
+    </div>
+
+    <!-- Container for child fields -->
+    <div id="childrenContainer"></div>
+
+    <button type="submit">Submit</button>
+    <div class="additional-links">
+        <a href="/login.html">Already have an account? Log In</a>
+    </div>
+
+</form>
+
+<script>
+
+    function createChildFields() {
+        var childrenCount = document.getElementById("childrenCount").value;
+        var container = document.getElementById("childrenContainer");
+
+        // Clear any existing child fields
+        container.innerHTML = "";
+
+        // Loop to create fields for each child
+        for (var i = 1; i <= childrenCount; i++) {
+            var childSection = document.createElement('div');
+            childSection.className = "child-section";
+
+            childSection.innerHTML = `
+                <h3>Child ${i}</h3>
+                <label for="child_fname_${i}">First Name:</label>
+                <input type="text" id="child_fname_${i}" name="child_fname_${i}" required /><br>
+
+                <label for="child_lname_${i}">Last Name:</label>
+                <input type="text" id="child_lname_${i}" name="child_lname_${i}" required /><br>
+
+                <label for="child_birthday_${i}">Date of Birth:</label>
+                <input type="date" id="child_birthday_${i}" name="child_birthday_${i}" required /><br>
+
+                <label for="child_age_${i}">Age:</label>
+                <input type="number" id="child_age_${i}" name="child_age_${i}" min="0" required /><br>
+
+                <label for="child_gender_${i}">Gender:</label>
+                <select id="child_gender_${i}" name="child_gender_${i}" required>
+                    <option value="">Select Gender</option>
+                    <option value="boy">Boy</option>
+                    <option value="girl">Girl</option>
+                </select><br>
+            `;
+
+            container.appendChild(childSection);
+        }
+    }
+
+
+
+
+    document.getElementById('signupForm').addEventListener('submit', function(event) {
+        var isValid = verifyFields() && verifyFields1() && verifyFields2() && verifyFields4() && verifyFields5() && verifyFields6();
+
+        if (!isValid) {
+            event.preventDefault();
+        } else {
+            dateDiff(); // If everything is valid, show the age calculation
+        }
+    });
+
+    function verifyFields() {
+        var fname = document.getElementById("fname").value;
+        if (fname === "") {
+            document.getElementById("error").innerHTML = "Invalid First Name";
+            return false;
+        } else {
+            document.getElementById("error").innerHTML = "";
+            return true;
+        }
+    }
+
+    function verifyFields1() {
+        var lname = document.getElementById("lname").value;
+        if (lname === "") {
+            document.getElementById("error1").innerHTML = "Invalid Last Name";
+            return false;
+        } else {
+            document.getElementById("error1").innerHTML = "";
+            return true;
+        }
+    }
+
+    function verifyFields2() {
+        var email = document.getElementById("email").value;
+        var pattern = /^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/;
+
+        if (!pattern.test(email)) {
+            document.getElementById("error2").innerHTML = "Invalid Email";
+            return false;
+        } else {
+            document.getElementById("error2").innerHTML = "";
+            return true;
+        }
+    }
+
+    function verifyFields4() {
+        var pid = document.getElementById("pid").value;
+        if (pid.length < 8 || !/[A-Z]/.test(pid) || !/[a-z]/.test(pid) || !/[0-9]/.test(pid)) {
+            document.getElementById("error3").innerHTML = "Invalid Password";
+            return false;
+        } else {
+            document.getElementById("error3").innerHTML = "";
+            return true;
+        }
+    }
+
+    function verifyFields5() {
+        var input = document.getElementById('prid');
+        if (input.value != document.getElementById('pid').value) {
+            document.getElementById("error4").innerHTML = "Passwords do not match";
+            return false;
+        } else {
+            document.getElementById("error4").innerHTML = "";
+            return true;
+        }
+    }
+
+    function verifyFields6() {
+        var birthday = document.getElementById("birthday").value;
+        if (birthday === "") {
+            document.getElementById("error5").innerHTML = "Invalid Birthday";
+            return false;
+        } else {
+            document.getElementById("error5").innerHTML = "";
+            return true;
+        }
+    }
+
+    function dateDiff() {
+        var birthday = new Date(document.getElementById("birthday").value);
+        var years = Math.floor((new Date() - birthday) / 31536000000);
+        var fname = document.getElementById("fname").value;
+        var lname = document.getElementById("lname").value;
+
+        document.getElementById("days").innerHTML =
+            fname + " " + lname + ", you are " + years + " years old.";
+    }
+</script>
 </body>
 </html>

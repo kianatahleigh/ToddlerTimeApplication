@@ -39,7 +39,7 @@
         }
 
         form {
-            background-color: #ff8c00;
+            background-color: #ff0000;
             padding: 30px;
             border-radius: 20px;
             box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
@@ -198,8 +198,8 @@
         }
 
         .shape.oval {
-            width: 80px;
             height: 50px;
+            width: 100px;
             border-radius: 50%;
         }
 
@@ -249,8 +249,8 @@
 
         .shape.heart {
             position: relative;
-            width: 50px;
-            height: 45px;
+            width: 100px;
+            height: 90px;
             background-color: rgba(0, 0, 0, 0.2);
         }
 
@@ -258,10 +258,13 @@
         .shape.heart:after {
             content: "";
             position: absolute;
-            width: 52px;
+            width: 50px;
             height: 80px;
-            border-radius: 50%;
+            top: 0;
+            border-radius: 50px 50px 0 0;
             background: rgba(0, 0, 0, 0.2);
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
         }
 
         .shape.heart:before {
@@ -276,26 +279,6 @@
             transform-origin: 100% 100%;
         }
 
-        .shape.star {
-            width: 0;
-            height: 0;
-            border-left: 30px solid transparent;
-            border-right: 30px solid transparent;
-            border-bottom: 60px solid rgba(0, 0, 0, 0.2);
-            position: relative;
-            transform: rotate(35deg);
-        }
-
-        .shape.star:before {
-            content: "";
-            position: absolute;
-            left: -30px;
-            top: -20px;
-            border-left: 30px solid transparent;
-            border-right: 30px solid transparent;
-            border-bottom: 60px solid rgba(0, 0, 0, 0.2);
-            transform: rotate(-70deg);
-        }
 
         /* Position shapes randomly */
         @keyframes shapeAnimation {
@@ -410,7 +393,7 @@
         const shapeTypes = ['circle', 'square', 'rectangle', 'oval', 'hexagon', 'triangle', 'diamond', 'rhombus', 'heart', 'star'];
         const colors = ['#FF6347', '#FFD700', '#ADFF2F', '#00BFFF', '#FF69B4', '#FF4500', '#00FF00', '#FF1493', '#00FFFF', '#FF8C00'];
 
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 30; i++) {
             const shape = document.createElement('div');
             const shapeType = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
             shape.classList.add('shape', shapeType);
@@ -422,6 +405,7 @@
             shapesContainer.appendChild(shape);
         }
     });
+
 </script>
 
 </body>
