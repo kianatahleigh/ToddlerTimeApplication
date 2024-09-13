@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toddler Time - Parent Login</title>
+    <style>
+        body {
+            background-color: #ffff00; /* Bright yellow */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+
+        h1 {
+            color: #340acc; /* Bright blue */
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: bounce 1s;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+
+        form {
+            background-color: #ff8c00;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 300px;
+            position: relative;
+        }
+
+        label {
+            font-size: 1.2em;
+            color: white;
+        }
+
+        input[type="text"], input[type="password"] {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        button {
+            background-color: #32cd32;
+            color: white;
+            font-size: 1.2em;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #228b22;
+            transform: scale(1.1);
+        }
+
+
+
+        .clock {
+            width: 120px;
+            height: 120px;
+            background-color: #fff;
+            border: 5px solid #ff1493;
+            border-radius: 50%;
+            position: absolute;
+            top: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #000;
+        }
+
+        .clock-numbers {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .clock-numbers div {
+            position: absolute;
+        }
+
+        .twelve { top: 5px; }
+        .three { right: 5px; }
+        .six { bottom: 5px; }
+        .nine { left: 5px; }
+
+        .clock .hand {
+            position: absolute;
+            width: 50%;
+            height: 2px;
+            background-color: #000;
+            top: 50%;
+            left: 50%;
+            transform-origin: 0% 0%;
+            transform: rotate(90deg);
+        }
+
+        .hand.hour {
+            width: 35%;
+            height: 3px;
+            background-color: #000;
+        }
+
+        .hand.minute {
+            width: 45%;
+            background-color: #333;
+        }
+
+        .hand.second {
+            background-color: red;
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .clock .hour {
+            animation: rotate 43200s infinite linear; /* 12 hours */
+        }
+
+        .clock .minute {
+            animation: rotate 3600s infinite linear; /* 60 minutes */
+        }
+
+        .clock .second {
+            animation: rotate 60s infinite linear; /* 60 seconds */
+        }
+
+        /* Shapes Styling */
+        .shapes-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none; /* Prevents shapes from blocking interactions with the form */
+            z-index: 0; /* Ensure shapes are behind the form */
+        }
+
+        .shape {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 0;
+        }
+
+        /* Shapes */
+        .shape.circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .shape.square {
+            width: 50px;
+            height: 50px;
+        }
+
+        .shape.rectangle {
+            width: 80px;
+            height: 40px;
+        }
+
+        .shape.oval {
+            width: 80px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .shape.hexagon {
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 60px solid rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .shape.hexagon:before {
+            content: "";
+            position: absolute;
+            top: -35px;
+            left: -30px;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 60px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .shape.triangle {
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 50px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .shape.diamond {
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 60px solid rgba(0, 0, 0, 0.2);
+            position: relative;
+            transform: rotate(45deg);
+        }
+
+        .shape.rhombus {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.2);
+            transform: rotate(45deg);
+        }
+
+        .shape.heart {
+            position: relative;
+            width: 50px;
+            height: 45px;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .shape.heart:before,
+        .shape.heart:after {
+            content: "";
+            position: absolute;
+            width: 52px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .shape.heart:before {
+            left: 50px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .shape.heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .shape.star {
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 60px solid rgba(0, 0, 0, 0.2);
+            position: relative;
+            transform: rotate(35deg);
+        }
+
+        .shape.star:before {
+            content: "";
+            position: absolute;
+            left: -30px;
+            top: -20px;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 60px solid rgba(0, 0, 0, 0.2);
+            transform: rotate(-70deg);
+        }
+
+        /* Position shapes randomly */
+        @keyframes shapeAnimation {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(100vw, 100vh); }
+        }
+
+        .shape:nth-child(1) { width: 50px; height: 50px; top: 10%; left: 20%; }
+        .shape:nth-child(2) { width: 60px; height: 60px; top: 30%; left: 50%; }
+        .shape:nth-child(3) { width: 70px; height: 70px; top: 50%; left: 30%; }
+        .shape:nth-child(4) { width: 80px; height: 80px; top: 70%; left: 70%; }
+        .shape:nth-child(5) { width: 40px; height: 40px; top: 40%; left: 80%; }
+        .shape:nth-child(6) { width: 50px; height: 50px; top: 80%; left: 10%; }
+        .shape:nth-child(7) { width: 60px; height: 60px; top: 60%; left: 20%; }
+        .shape:nth-child(8) { width: 70px; height: 70px; top: 20%; left: 40%; }
+        .shape:nth-child(9) { width: 80px; height: 80px; top: 90%; left: 50%; }
+        .shape:nth-child(10) { width: 40px; height: 40px; top: 30%; left: 60%; }
+        .shape:nth-child(11) { width: 50px; height: 50px; top: 10%; left: 80%; }
+        .shape:nth-child(12) { width: 60px; height: 60px; top: 50%; left: 10%; }
+        .shape:nth-child(13) { width: 70px; height: 70px; top: 70%; left: 40%; }
+        .shape:nth-child(14) { width: 80px; height: 80px; top: 30%; left: 20%; }
+        .shape:nth-child(15) { width: 50px; height: 50px; top: 60%; left: 70%; }
+
+        /* Randomize shapes' positions over time */
+        .shapes-container .shape {
+            animation: shapeAnimation 15s infinite linear;
+        }
+
+        .additional-links {
+            margin-top: 20px;
+        }
+
+        .additional-links a {
+            color: #340acc;
+            text-decoration: none;
+            font-size: 1em;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .additional-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="shapes-container">
+    <!-- Shapes will be dynamically added by CSS -->
+</div>
+
+<form onsubmit="return check(event)">
+    <div class="clock">
+        <div class="clock-numbers">
+            <div class="twelve">12</div>
+            <div class="three">3</div>
+            <div class="six">6</div>
+            <div class="nine">9</div>
+        </div>
+        <div class="hand hour"></div>
+        <div class="hand minute"></div>
+        <div class="hand second"></div>
+    </div>
+    <h1>Welcome Parents!</h1>
+    <div>
+        <label for="email">Email:</label><br>
+        <input type="text" name="email" id="email" required
+               pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+        title="Has to be valid Email"/>
+        <div id="error"></div>
+    </div>
+    <br>
+    <div>
+        <label for="pid">Password:</label><br>
+        <input type="password" name="pid" id="pid" required
+               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+               title="Must contain at least one number, one uppercase, and one lowercase letter, and be at least 8 characters long" />
+        <div id="error1"></div>
+    </div>
+    <button type="submit">Login</button>
+    <div class="additional-links">
+        <a href="/signup.html">Sign Up</a>
+        <a href="/forgot-password.html">Forgot Password?</a>
+    </div>
+</form>
+
+<script>
+    function check(event) {
+        let email = document.getElementById("email").value;
+        let pid = document.getElementById("pid").value;
+        let error = "";
+        let error1 = "";
+
+        if (email === "") {
+            error = "Invalid Email";
+        }
+
+        if (pid.length < 8 || !/[A-Z]/.test(pid) || !/[a-z]/.test(pid) || !/[0-9]/.test(pid)) {
+            error1 = "Invalid Password";
+        }
+
+        document.getElementById("error").innerText = error;
+        document.getElementById("error1").innerText = error1;
+
+        if (error || error1) {
+            event.preventDefault();
+        }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const shapesContainer = document.querySelector('.shapes-container');
+        const shapeTypes = ['circle', 'square', 'rectangle', 'oval', 'hexagon', 'triangle', 'diamond', 'rhombus', 'heart', 'star'];
+        const colors = ['#FF6347', '#FFD700', '#ADFF2F', '#00BFFF', '#FF69B4', '#FF4500', '#00FF00', '#FF1493', '#00FFFF', '#FF8C00'];
+
+        for (let i = 0; i < 20; i++) {
+            const shape = document.createElement('div');
+            const shapeType = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
+            shape.classList.add('shape', shapeType);
+            shape.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            shape.style.width = `${Math.random() * 60 + 30}px`;
+            shape.style.height = shape.style.width; // Ensures circles are circles
+            shape.style.top = `${Math.random() * 100}vh`;
+            shape.style.left = `${Math.random() * 100}vw`;
+            shapesContainer.appendChild(shape);
+        }
+    });
+</script>
+
+</body>
+</html>
