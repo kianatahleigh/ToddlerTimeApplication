@@ -16,6 +16,7 @@
         flex-direction: column;
         min-height: 100vh;
         overflow-y: auto; /* Allows scrolling */
+        position: relative;
     }
 
     h1 {
@@ -56,7 +57,7 @@
         color: white;
     }
 
-    input[type="text"], input[type="password"], input[type="email"] {
+    input[type="text"], input[type="password"], input[type="email"], input[type="tel"] {
         padding: 15px;
         margin-top: 10px;
         width: 100%;
@@ -115,11 +116,13 @@
         border-left: 50px solid transparent;
         border-right: 50px solid transparent;
         border-bottom: 100px solid rgba(255, 255, 255, 0.5);
+
     }
 
     .shape.square {
         width: 80px;
         height: 80px;
+
     }
 
     /* Position the shapes randomly */
@@ -128,6 +131,8 @@
     .shape:nth-child(3) { top: 70%; left: 30%; }
     .shape:nth-child(4) { top: 85%; left: 75%; }
     .shape:nth-child(5) { top: 20%; left: 80%; }
+
+
 
     .shapes-container .shape {
         animation: floatShapes 15s infinite alternate ease-in-out;
@@ -168,6 +173,10 @@
     <div class="shape square"></div>
     <div class="shape circle"></div>
     <div class="shape square"></div>
+
+
+
+
 </div>
 
 <form id="signupForm">
@@ -193,6 +202,14 @@
                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
                title="Has to be valid Email"/>
         <div id="error2"></div>
+    </div>
+
+    <div>
+        <label for="phone">Phone Number:</label><br>
+        <input type="tel" name="phone" id="phone" required
+               pattern="[0-9]{10}"
+               title="Phone number must be 10 digits" />
+        <div id="errorPhone"></div>
     </div>
 
     <div>
@@ -280,7 +297,7 @@
 
 
     document.getElementById('signupForm').addEventListener('submit', function(event) {
-        var isValid = verifyFields() && verifyFields1() && verifyFields2() && verifyFields4() && verifyFields5() && verifyFields6();
+        var isValid = verifyFields() && verifyFields1() && verifyFields2() && verifyFields4() && verifyFields5() && verifyFields6() && verifyPhone();
 
         if (!isValid) {
             event.preventDefault();
@@ -323,6 +340,21 @@
             return true;
         }
     }
+
+    function verifyPhone() {
+        var phone = document.getElementById("phone").value;
+        var phonePattern = /^[0-9]{10}$/;
+
+        if (!phonePattern.test(phone)) {
+            document.getElementById("errorPhone").innerHTML = "Invalid Phone Number";
+            return false;
+        } else {
+            document.getElementById("errorPhone").innerHTML = "";
+            return true;
+        }
+    }
+
+
 
     function verifyFields4() {
         var pid = document.getElementById("pid").value;

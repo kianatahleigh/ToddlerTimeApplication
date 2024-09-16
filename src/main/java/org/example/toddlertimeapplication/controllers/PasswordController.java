@@ -1,4 +1,4 @@
 package org.example.toddlertimeapplication.controllers;
 
-public class HomeController {
+public class PasswordController {
 }
