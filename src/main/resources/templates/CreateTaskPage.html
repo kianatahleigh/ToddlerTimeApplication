@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Task for Child</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #FFFCF2;
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            color: #FF6347;
+        }
+        form {
+            margin-top: 20px;
+            background-color: #FFF8DC;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #FF4500;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 2px solid #FFD700;
+            border-radius: 6px;
+            background-color: #FFFACD;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+        button {
+            background-color: #32CD32;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #228B22;
+        }
+        a {
+            color: #FF6347;
+            text-decoration: none;
+            margin-top: 15px;
+            display: inline-block;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<h1>Create New Task for <span th:text="${child.name}"></span></h1>
+
+<form th:action="@{/tasks/create}" method="post">
+    <input type="hidden" name="childId" th:value="${child.id}">
+
+    <label for="title">Task Title</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="description">Task Description</label>
+    <textarea id="description" name="description" rows="4" required></textarea>
+
+    <label for="child">Assign to Child</label>
+    <select id="child" name="childId" required>
+        <option th:each="child : ${children}" th:value="${child.id}" th:text="${child.name}">Child Name</option>
+    </select>
+
+    <button type="submit">Create Task</button>
+</form>
+
+<a th:href="@{/tasks}">Back to Task List</a>
+</body>
+</html>

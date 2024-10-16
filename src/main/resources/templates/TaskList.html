@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Parent Task List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFEEAD; /* Light yellow background for cheerful atmosphere */
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            color: #FF6347; /* Bright red-orange for the title */
+        }
+        a {
+            display: inline-block;
+            margin: 10px 0;
+            color: #4682B4; /* Blue links for actions */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #1E90FF; /* Lighter blue on hover */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50; /* Green header */
+            color: white;
+        }
+        td {
+            background-color: #FAFAD2; /* Light golden yellow rows */
+        }
+        td a {
+            color: #FF4500; /* Orange for edit/delete links */
+        }
+        td a:hover {
+            color: #FF6347; /* Darker orange-red on hover */
+        }
+        tr:hover {
+            background-color: #F0E68C; /* Light yellow highlight on hover */
+        }
+    </style>
+</head>
+<body>
+<h1>Task List for Parents</h1>
+<a th:href="@{/tasks/new}">Create New Task</a>
+<br>
+
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Assigned Child</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${tasks}">
+        <td th:text="${task.title}">Task Title</td>
+        <td th:text="${task.description}">Task Description</td>
+        <td th:text="${task.status}">Task Status</td>
+        <td th:text="${task.child.name}">Assigned Child</td>
+        <td>
+            <a th:href="@{/tasks/edit/{id}(id=${task.id})}">Edit</a>
+            <a th:href="@{/tasks/delete/{id}(id=${task.id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

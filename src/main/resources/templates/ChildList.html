@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Child List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            color: #5a5a5a;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #4CAF50;
+        }
+        .add-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .add-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h1>Children List</h1>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Date of Birth</th>
+        <th>Age</th>
+        <th>Gender</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="child : ${children}">
+        <td th:text="${child.firstName}"></td>
+        <td th:text="${child.lastName}"></td>
+        <td th:text="${child.dateOfBirth}"></td>
+        <td th:text="${child.age}"></td>
+        <td th:text="${child.gender}"></td>
+
+    </tr>
+    </tbody>
+</table>
+
+<a class="back-link" th:href="@{/dashboard}">Back to Dashboard</a>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Parent Profile</title>
+</head>
+<body>
+<h1>Profile for: <span th:text="${parent.firstName} + ' ' + ${parent.lastName}"></span></h1>
+<p>Email: <span th:text="${parent.email}"></span></p>
+<p>Phone Number: <span th:text="${parent.phoneNumber}"></span></p>
+<p>Date of Birth: <span th:text="${parent.dateOfBirth}"></span></p>
+
+<h2>Children:</h2>
+<ul>
+    <li th:each="child : ${parent.children}">
+        <strong th:text="${child.firstName} + ' ' + ${child.lastName}"></strong> -
+        Date of Birth: <span th:text="${child.dateOfBirth}"></span>,
+        Age: <span th:text="${child.calculateAge()}"></span>,
+        Gender: <span th:text="${child.gender}"></span>
+    </li>
+</ul>
+</body>
+</html>

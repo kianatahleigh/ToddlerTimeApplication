@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Delete Task</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFEEAD; /* Light yellow background */
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            color: #FF6347; /* Bright red-orange */
+        }
+        .task-details {
+            margin-bottom: 20px;
+        }
+        .task-details label {
+            font-weight: bold;
+        }
+        button {
+            background-color: #FF4500; /* Orange button */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #FF6347; /* Darker orange on hover */
+        }
+    </style>
+</head>
+<body>
+<h1>Confirm Deletion</h1>
+<div class="task-details">
+    <label>Title:</label>
+    <p th:text="${task.title}"></p>
+
+    <label>Description:</label>
+    <p th:text="${task.description}"></p>
+
+    <label>Assigned Child:</label>
+    <p th:text="${task.child.name}"></p>
+
+    <label>Status:</label>
+    <p th:text="${task.status}"></p>
+</div>
+
+<p>Are you sure you want to delete this task?</p>
+<form th:action="@{/tasks/delete/{id}(id=${task.id})}" method="post">
+    <button type="submit">Yes, Delete</button>
+</form>
+<a href="@{/tasks}">Cancel</a>
+</body>
+</html>

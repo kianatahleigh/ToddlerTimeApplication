@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Task</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFEEAD; /* Light yellow background */
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            color: #FF6347; /* Bright red-orange */
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+        button {
+            background-color: #4CAF50; /* Green button */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+<h1>Edit Task</h1>
+<form th:action="@{/tasks/edit/{id}(id=${task.id})}" method="post">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" th:value="${task.title}" required>
+
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required th:text="${task.description}"></textarea>
+
+    <label for="status">Status:</label>
+    <select id="status" name="status" required>
+        <option th:value="${task.status}" th:text="${task.status}"></option>
+        <option th:value="'TODO'" th:text="'To Do'"></option>
+        <option th:value="'IN_PROGRESS'" th:text="'In Progress'"></option>
+        <option th:value="'COMPLETED'" th:text="'Completed'"></option>
+        <option th:value="'INCOMPLETED'" th:text="'Inompletee'"></option>
+        <option th:value="'CANCELLED'" th:text="'Cancelled'"></option>
+    </select>
+
+    <label for="child">Assigned Child:</label>
+    <select id="child" name="childId" required>
+        <option th:each="child : ${children}" th:value="${child.id}" th:text="${child.name}"
+                th:selected="${task.child.id == child.id}"></option>
+    </select>
+
+    <button type="submit">Update Task</button>
+</form>
+<a href="@{/tasks}">Back to Task List</a>
+</body>
+</html>

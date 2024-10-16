@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Parent Signup - Children Information</title>
+    <style>
+        body {
+            background-color: #ffeb3b; /* Bright yellow */
+            font-family: 'Comic Sans MS', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-y: auto; /* Allows scrolling */
+            position: relative;
+        }
+
+        h1 {
+            color: #e91e63; /* Pink */
+            text-align: center;
+            font-size: 3em;
+            margin-bottom: 20px;
+            animation: bounce 1s ease-in-out;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-30px);
+            }
+            60% {
+                transform: translateY(-15px);
+            }
+        }
+
+        form {
+            background-color: #03a9f4; /* Sky blue */
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 350px;
+            position: relative;
+            z-index: 1;
+            border: 3px solid #ffffff;
+            margin: 20px 0; /* Adds margin to make form scrollable when tall */
+        }
+
+        label {
+            font-size: 1.2em;
+            color: white;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], select {
+            padding: 15px;
+            margin-top: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            font-size: 1em;
+            background-color: #ffffff;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #ff5722; /* Bright orange */
+            color: white;
+            font-size: 1.2em;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 20px;
+            margin-top: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            background-color: #e64a19;
+            transform: scale(1.1);
+        }
+
+        /* Fun background shapes */
+        .shapes-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh; /* Full height of the viewport */
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.5;
+            background-color: rgba(255, 255, 255, 0.5);
+            z-index: 0;
+        }
+
+        .shape.circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+
+        .shape.triangle {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 100px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .shape.square {
+            width: 80px;
+            height: 80px;
+        }
+
+        /* Position the shapes randomly */
+        .shape:nth-child(1) { top: 10%; left: 15%; }
+        .shape:nth-child(2) { top: 40%; left: 50%; }
+        .shape:nth-child(3) { top: 70%; left: 30%; }
+        .shape:nth-child(4) { top: 85%; left: 75%; }
+        .shape:nth-child(5) { top: 20%; left: 80%; }
+
+        .shapes-container .shape {
+            animation: floatShapes 15s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatShapes {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-30px);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="shapes-container">
+    <div class="shape circle"></div>
+    <div class="shape triangle"></div>
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+</div>
+
+<h1>Parent Signup - Children Information</h1>
+
+<form id="parentForm" th:action="@{/parent/signup}" th:object="${parentForm}" method="post" novalidate>
+    <div>
+        <label for="childrenCount">Number of Children:</label>
+        <input type="number" name="childrenCount" id="childrenCount" min="0" th:value="${parentForm.childrenCount}" required />
+        <button type="button" id="addChildrenBtn">Add Children</button>
+    </div>
+
+    <div id="childrenContainer"></div>
+
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.getElementById('addChildrenBtn').addEventListener('click', createChildFields);
+    document.getElementById('parentForm').addEventListener('submit', handleSubmit);
+
+    function createChildFields() {
+        const childrenCountInput = document.getElementById("childrenCount");
+        const childrenCount = parseInt(childrenCountInput.value, 10);
+        const container = document.getElementById("childrenContainer");
+
+        // Clear any existing child fields
+        container.innerHTML = "";
+
+        // Loop to create fields for each child
+        for (let i = 1; i <= childrenCount; i++) {
+            const childSection = document.createElement('div');
+            childSection.className = "child-section";
+
+            childSection.innerHTML = `
+                <h3>Child ${i}</h3>
+                <div>
+                    <label for="child_fname_${i}">First Name:</label>
+                    <input type="text" id="child_fname_${i}" name="children[${i - 1}].firstName" th:value="\${parentForm.children[${i - 1}].firstName}" required />
+                </div>
+
+                <div>
+                    <label for="child_lname_${i}">Last Name:</label>
+                    <input type="text" id="child_lname_${i}" name="children[${i - 1}].lastName" th:value="\${parentForm.children[${i - 1}].lastName}" required />
+                </div>
+
+                <div>
+                    <label for="child_birthday_${i}">Date of Birth:</label>
+                    <input type="date" id="child_birthday_${i}" name="children[${i - 1}].birthDate" th:value="\${parentForm.children[${i - 1}].birthDate}" required />
+                </div>
+
+                <div>
+                    <label for="child_age_${i}">Age:</label>
+                    <input type="number" id="child_age_${i}" name="children[${i - 1}].age" min="0" th:value="\${parentForm.children[${i - 1}].age}" required />
+                </div>
+
+                <div>
+                    <label for="child_gender_${i}">Gender:</label>
+                    <select id="child_gender_${i}" name="children[${i - 1}].gender" th:value="\${parentForm.children[${i - 1}].gender}" required>
+                        <option value="">Select Gender</option>
+                        <option value="boy">Boy</option>
+                        <option value="girl">Girl</option>
+                    </select>
+                </div>
+            `;
+
+            container.appendChild(childSection);
+        }
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault(); // Prevent form from submitting
+
+        const form = event.target;
+        const childrenCount = parseInt(document.getElementById("childrenCount").value, 10);
+        let isValid = true;
+
+        // Validate children count
+        if (isNaN(childrenCount) || childrenCount < 0) {
+            isValid = false;
+        }
+
+        // Validate each child's fields
+        for (let i = 1; i <= childrenCount; i++) {
+            const fname = document.getElementById(`child_fname_${i}`);
+            const lname = document.getElementById(`child_lname_${i}`);
+            const birthday = document.getElementById(`child_birthday_${i}`);
+            const age = document.getElementById(`child_age_${i}`);
+            const gender = document.getElementById(`child_gender_${i}`);
+
+            if (!fname.value || !lname.value || !birthday.value || age.value < 0 || !gender.value) {
+                isValid = false;
+                break; // Exit the loop on first invalid field
+            }
+        }
+
+        if (isValid) {
+            form.submit(); // Submit form if valid
+        } else {
+            alert("Please fill in all fields correctly.");
+        }
+    }
+</script>
+
+</body>
+</html>

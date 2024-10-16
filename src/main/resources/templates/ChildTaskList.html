@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Select Child</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #FFEEAD; /* Light yellow background for cheerful atmosphere */
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            color: #FF6347; /* Bright red-orange for the title */
+        }
+        .child-list {
+            margin-top: 20px;
+        }
+        .child-item {
+            background-color: #FAFAD2; /* Light golden yellow */
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+        .child-item:hover {
+            background-color: #F0E68C; /* Light yellow highlight on hover */
+        }
+        a {
+            color: #4682B4;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #1E90FF;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Select a Child to View Their Task List</h1>
+
+<div class="child-list">
+    <div class="child-item" th:each="child : ${children}">
+        <a th:href="@{/tasks/child/{id}(id=${child.id})}" th:text="${child.name}">Child Name</a>
+    </div>
+</div>
+
+</body>
+</html>

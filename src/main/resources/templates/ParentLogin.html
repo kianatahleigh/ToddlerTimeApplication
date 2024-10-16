@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -331,7 +331,7 @@
     <!-- Shapes will be dynamically added by CSS -->
 </div>
 
-<form onsubmit="return check(event)">
+<form th:action="@{/login}" method="post" onsubmit="return check(event)">
     <div class="clock">
         <div class="clockface">
             <div class="pin"></div>
@@ -357,7 +357,7 @@
         <label for="email">Email:</label><br>
         <input type="text" name="email" id="email" required
                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
-        title="Has to be valid Email"/>
+               title="Has to be valid Email"/>
         <div id="error"></div>
     </div>
     <br>
@@ -370,12 +370,25 @@
     </div>
     <button type="submit">Login</button>
     <div class="additional-links">
-        <a href="/signup.html">Sign Up</a>
-        <a href="/forgot-password.html">Forgot Password?</a>
+       <a href="#" th:href="@{/home}" onclick="goToHomePage()">Home</a>
+        <a href="#" th:href="@{/home/signup}" onclick="goToSignupPage()">Sign Up</a>
+        <a href="#" th:href="@{/forgot/password}" onclick="goToForgotPassword()">Forgot Password?</a>
     </div>
 </form>
 
 <script>
+    function goToHomePage() {
+        location.href = "HomePage.html";
+    }
+
+    function goToSignupPage() {
+        location.href = "ParentSignup.html";
+    }
+
+    function goToForgotPassword() {
+        location.href = "ForgotPassword.html";
+    }
+
     function check(event) {
         let email = document.getElementById("email").value;
         let pid = document.getElementById("pid").value;
