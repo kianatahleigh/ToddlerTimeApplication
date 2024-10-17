@@ -23,7 +23,7 @@ public class TaskController {
     private ChildService childService;
 
     // Parent view for listing all tasks
-    @GetMapping
+    @GetMapping("/view")
     public String listAllTasks(Model model) {
         List<Task> tasks = taskService.getAllTasks();
         model.addAttribute("tasks", tasks);

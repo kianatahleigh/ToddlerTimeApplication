@@ -46,12 +46,12 @@
 </head>
 <body>
 
-<h1>Welcome to the Parent Dashboard, <span th:text="${parent.name}"></span></h1>
+<h1>Welcome to the Parent Dashboard, <span th:text="${parent.firstName} + ' ' + ${parent.lastName}">Parent Name</span></h1>
 
 <div class="button-group">
-    <a href="/add-child" class="button">Add a Child</a>
+    <a href="/children/new" class="button">Add a Child/Children</a>
     <a href="/task/create" class="button">Create Task for a Child</a>
-    <a href="/tasklist" class="button">View Task List</a>
+    <a href="/task/view" class="button">View Task List</a>
 </div>
 
 <h2>Your Children</h2>
@@ -64,7 +64,7 @@
     </thead>
     <tbody>
     <tr th:each="child : ${children}">
-        <td th:text="${child.name}"></td>
+        <td th:text="${child.name}">Child Name</td>
         <td>
             <a th:href="@{/child/tasks/{id}(id=${child.id})}" class="button">View Tasks</a>
         </td>
