@@ -1,6 +1,6 @@
 package org.example.toddlertimeapplication.controllers;
 
-import org.example.toddlertimeapplication.model.Parent;
+
 import org.example.toddlertimeapplication.model.Status;
 import org.example.toddlertimeapplication.services.TaskService;
 import org.example.toddlertimeapplication.services.ChildService;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+
 import java.util.List;
 
 @Controller
@@ -64,7 +64,7 @@ public class ChildController {
 
     @GetMapping("/tasks/{childId}")
     public String childTaskHub(@PathVariable Long childId, Model model) {
-        // Retrieve the Child entity using childId
+        // Retrieve the Child  using childId
         Child child = childService.getChildById(childId);
 
         if (child == null) {

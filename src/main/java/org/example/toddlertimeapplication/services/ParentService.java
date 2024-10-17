@@ -43,6 +43,10 @@ public class ParentService {
     // Log before saving
             System.out.println("Saving parent: " + parent);
         parent.setPassword(passwordEncoder.encode(parent.getPassword()));
+
+
+        parent.setRole("PARENT");
+
         parentRepository.save(parent);
     }
 

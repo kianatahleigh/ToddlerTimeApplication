@@ -31,7 +31,7 @@ public class SecurityConfiguration {
                                 "/css/**",
                                 "/js/**",
                                 "/images/**").permitAll()  // Public access
-                        .requestMatchers("/parents/**").hasRole("PARENT")  // Parent access
+                        .requestMatchers("/parent/**").hasRole("PARENT")  // Parent access
                         .anyRequest().authenticated())  // All other requests require authentication
 
                 .formLogin(formLogin -> formLogin

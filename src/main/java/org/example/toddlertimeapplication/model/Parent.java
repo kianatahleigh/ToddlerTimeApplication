@@ -54,6 +54,10 @@ public class Parent implements UserDetails {
     @Column(name = "number_of_children")
     private int numberOfChildren = 0;
 
+
+    @Column (name="role")
+    private String role;
+
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     @Size(min = 1, message = "At least one child is required")
     private List<Child> children;
@@ -62,8 +66,7 @@ public class Parent implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Return roles/authorities (if applicable)
-        return null;
+        return List.of(() -> "ROLE_" + this.role);
     }
 
 

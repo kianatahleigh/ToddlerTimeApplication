@@ -17,7 +17,7 @@ public class ParentController {
     @Autowired
     private ParentService parentService;
 
-    // Parent  profile
+    // Parent  profile`
     @GetMapping("/profile")
     public String parentProfile(Principal principal, Model model) {
         Optional<Parent> parent = parentService.findByEmail(principal.getName()); // Assuming you identify parents by username
