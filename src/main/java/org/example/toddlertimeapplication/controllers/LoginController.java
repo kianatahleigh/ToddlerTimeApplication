@@ -1,8 +1,7 @@
 package org.example.toddlertimeapplication.controllers;
 
-import org.example.toddlertimeapplication.model.Parent;
+
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -15,6 +14,4 @@ public class LoginController {
         return "ParentLogin"; // Ensure this matches your Thymeleaf template
     }
 
-
-    // No need for @PostMapping, Spring Security handles the authentication for you.
 }

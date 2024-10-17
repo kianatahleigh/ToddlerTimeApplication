@@ -7,7 +7,7 @@ import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
+
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -45,40 +45,32 @@ public class Parent implements UserDetails {
     @NotBlank(message = "Password is required")
     private String password;
 
-    @Transient // Not persisted in the database
-    @NotBlank(message = "Confirm password is required")
-    private String confirmPassword;
-
 
     @NotNull
     @Past(message = "Date of birth must be in the past")
     private LocalDate dateOfBirth;
 
-    @Min(value = 1, message = "You must have at least one child")
-    private int numberOfChildren;
+
+    @Column(name = "number_of_children")
+    private int numberOfChildren = 0;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     @Size(min = 1, message = "At least one child is required")
     private List<Child> children;
     // Implement UserDetails methods
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // Return roles/authorities (if applicable)
         return null;
     }
 
+
     @Override
     public String getPassword() {
         return this.password;
     }
-
-
-    public String getConfirmPassword() {
-        return this.confirmPassword;
-    }
-
-
-
 
 
     @Override
@@ -88,21 +80,21 @@ public class Parent implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // Customize this if needed
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // Customize this if needed
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // Customize this if needed
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true; // Customize this if needed
+        return true;
     }
 }

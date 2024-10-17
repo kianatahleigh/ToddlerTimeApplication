@@ -24,8 +24,8 @@ public class SignUpController {
 
     @GetMapping("/signup")
     public String showSignupPage(Model model) {
-        model.addAttribute("parent", new Parent()); // Create a new Parent object
-        return "SignUp"; // The name of your signup HTML page
+        model.addAttribute("parent", new Parent());
+        return "SignUp";
     }
 
     @PostMapping("/signup")
@@ -36,13 +36,6 @@ public class SignUpController {
             return "SignUp"; // Show signup page with errors
         }
 
-        // Validate password confirmation
-        if (!parent.getPassword().equals(parent.getConfirmPassword())) {
-            bindingResult.rejectValue("confirmPassword", "passwordMismatch", "Passwords do not match.");
-            return "SignUp";
-        }
-
-        // Encrypt password and save parent account
         try {
             parentService.saveParent(parent);
             return "redirect:/home/login"; // Redirect to login after successful signup
@@ -60,6 +53,6 @@ public class SignUpController {
 
     @GetMapping("/forgot/password")
     public String forgotPassword(Model model) {
-        return "ForgotPassword"; // Ensure this matches your Thymeleaf template name
+        return "ForgotPassword";
     }
 }

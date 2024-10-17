@@ -1,5 +1,7 @@
 package org.example.toddlertimeapplication.config;
 
+
+
 import org.example.toddlertimeapplication.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,32 +22,35 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(
-                                "/",
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers(     "/",
                                 "/home",
                                 "/home/login",
                                 "/home/signup",
-                                "/forgot/password", // Permitting Forgot Password
+                                "/forgot/password",
                                 "/css/**",
                                 "/js/**",
-                                "/images/**"
-                        ).permitAll()
-                        .requestMatchers("/parents/**").hasRole("PARENT") // Protected URLs for parents
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form -> form
+                                "/images/**").permitAll()  // Public access
+                        .requestMatchers("/parents/**").hasRole("PARENT")  // Parent access
+                        .anyRequest().authenticated())  // All other requests require authentication
+
+                .formLogin(formLogin -> formLogin
                         .loginPage("/home/login")
-                        .usernameParameter("email") // Ensure this matches your form
-                        .passwordParameter("pid")   // Ensure this matches your form
-                        .defaultSuccessUrl("/parents/dashboard", true)
                         .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/home/login?logout")
-                        .permitAll()
-                )
+                        .successHandler((request, response, authentication) -> {
+                            authentication.getAuthorities().forEach(grantedAuthority -> {
+                                String role = grantedAuthority.getAuthority();
+                                try {
+                                    if (role.equals("ROLE_PARENT")) {
+                                        response.sendRedirect("/parents/dashboard");  // Redirect for parents
+                                    }
+                                    // Additional roles can be added here if needed
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            });
+                        }))
+                .logout(logout -> logout.logoutSuccessUrl("/home/login").permitAll())
                 .userDetailsService(userDetailsService);
 
         return http.build();
