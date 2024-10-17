@@ -42,7 +42,7 @@ public class SecurityConfiguration {
                                 String role = grantedAuthority.getAuthority();
                                 try {
                                     if (role.equals("ROLE_PARENT")) {
-                                        response.sendRedirect("/parents/dashboard");  // Redirect for parents
+                                        response.sendRedirect("/parent/dashboard");  // Redirect for parents
                                     }
                                     // Additional roles can be added here if needed
                                 } catch (Exception e) {

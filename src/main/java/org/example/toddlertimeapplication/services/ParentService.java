@@ -18,6 +18,7 @@ public class ParentService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
     public List<Parent> getAllParents() {
         return parentRepository.findAll();
     }
@@ -44,6 +45,7 @@ public class ParentService {
         parent.setPassword(passwordEncoder.encode(parent.getPassword()));
         parentRepository.save(parent);
     }
+
 
     public Parent findByPhoneNumber(String phoneNumber) {
         return parentRepository.findByPhoneNumber(phoneNumber);

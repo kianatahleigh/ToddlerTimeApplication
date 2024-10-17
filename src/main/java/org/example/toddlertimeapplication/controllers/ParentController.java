@@ -11,7 +11,7 @@ import java.security.Principal;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/parents")
+@RequestMapping("/parent")
 public class ParentController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class ParentController {
     @PostMapping("/save")
     public String saveParent(@ModelAttribute("parent") Parent parent) {
         parentService.saveParent(parent);
-        return "redirect:/parents/profile";  // Redirect to the parent profile after saving
+        return "redirect:/parent/dashboard";  // Redirect to the parent profile after saving
     }
 
     @GetMapping
