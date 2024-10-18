@@ -180,7 +180,7 @@
 
     function createChildFields() {
         const childrenCountInput = document.getElementById("numberOfChildren"); // Update to match your HTML
-        const childrenCount = parseInt(document.getElementById("numberOfChildren").value, 10);
+        const childrenCount = parseInt(childrenCountInput.value, 10);
         const container = document.getElementById("childrenContainer");
 
         // Clear any existing child fields
@@ -205,7 +205,7 @@
 
             <div>
                 <label for="child_birthday_${i}">Date of Birth:</label>
-                <input type="date" id="child_birthday_${i}" name="children[${i - 1}].birthDate" required />
+                <input type="date" id="child_birthday_${i}" name="children[${i - 1}].dateOfBirth" required />
             </div>
 
             <div>
@@ -227,11 +227,12 @@
         }
     }
 
+
     function handleSubmit(event) {
         event.preventDefault(); // Prevent form from submitting
 
         const form = event.target;
-        const childrenCount = parseInt(document.getElementById("childrenCount").value, 10);
+        const childrenCount = parseInt(document.getElementById("numberOfChildren").value, 10); // Corrected line
         let isValid = true;
 
         // Validate children count
@@ -247,7 +248,8 @@
             const age = document.getElementById(`child_age_${i}`);
             const gender = document.getElementById(`child_gender_${i}`);
 
-            if (!fname.value || !lname.value || !birthday.value || age.value < 0 || !gender.value) {
+            // Check if fields are null before accessing their value
+            if (!fname || !lname || !birthday || !age || !gender || !fname.value || !lname.value || !birthday.value || age.value < 0 || !gender.value) {
                 isValid = false;
                 break; // Exit the loop on first invalid field
             }

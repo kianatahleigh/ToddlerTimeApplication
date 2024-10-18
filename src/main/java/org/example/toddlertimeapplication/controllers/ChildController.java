@@ -1,7 +1,10 @@
 package org.example.toddlertimeapplication.controllers;
 
 
+import jakarta.validation.Valid;
+import org.example.toddlertimeapplication.model.Parent;
 import org.example.toddlertimeapplication.model.Status;
+import org.example.toddlertimeapplication.services.ParentService;
 import org.example.toddlertimeapplication.services.TaskService;
 import org.example.toddlertimeapplication.services.ChildService;
 import org.example.toddlertimeapplication.model.Child;
@@ -9,6 +12,7 @@ import org.example.toddlertimeapplication.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -23,6 +27,9 @@ public class ChildController {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private ParentService parentService;
 
     // View all children
     @GetMapping
@@ -41,13 +48,24 @@ public class ChildController {
         return "ChildRegistration";  // Thymeleaf template for child form
     }
 
-    // Save a newly created child
-    @PostMapping("/save")
-    public String saveChild(@ModelAttribute("child") Child child) {
-        childService.saveChild(child);
-        return "redirect:/parent/dashboard";  // Redirect to child list after saving
-    }
 
+    @PostMapping("/save")
+    public String saveChild(@Valid @ModelAttribute("child") Child child, BindingResult result) {
+        if (result.hasErrors()) {
+            return "ChildRegistration"; // Return to the form view if there are errors
+        }
+
+        try {
+            childService.saveChild(child);
+        } catch (Exception e) {
+            // Log the error
+            System.err.println("Error saving child: " + e.getMessage());
+            e.printStackTrace();
+            return "ChildRegistration"; // Return to form on error
+        }
+
+        return "redirect:/parent/dashboard"; // Redirect after successful submission
+    }
     // Display form to edit an existing child
     @GetMapping("/edit/{id}")
     public String showEditChildForm(@PathVariable Long id, Model model) {
