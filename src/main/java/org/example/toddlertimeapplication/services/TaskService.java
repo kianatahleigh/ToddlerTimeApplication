@@ -37,9 +37,6 @@ public class TaskService {
 
     }
 
-    public List<Task> getTasksByChild(Child child) {
-        return taskRepository.findByChild(child);
-    }
 
     public void updateTaskStatus(Long taskId, Status status) {
         Task task = getTaskById(taskId);
@@ -51,7 +48,13 @@ public class TaskService {
         taskRepository.save(task);
     }
 
+
+    public List<Task> getTasksByChild(Child child) {
+        return taskRepository.findByChild(child);
+    }
+
     public List<Task> getTasksByChildId(Long childId) {
         return taskRepository.findByChildId(childId);
     }
+
 }

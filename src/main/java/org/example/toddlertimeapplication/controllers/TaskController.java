@@ -31,12 +31,14 @@ public class TaskController {
     private ParentService parentService;
 
     // Parent view for listing all tasks
+    // Parent view for listing all tasks
     @GetMapping("/view")
     public String listAllTasks(Model model) {
         List<Task> tasks = taskService.getAllTasks();
         model.addAttribute("tasks", tasks);
         return "TaskList";  // View for listing tasks
     }
+
 
     // Parent creating or editing a task
     @GetMapping("/new")
