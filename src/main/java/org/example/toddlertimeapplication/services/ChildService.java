@@ -1,5 +1,6 @@
 package org.example.toddlertimeapplication.services;
 
+import jakarta.transaction.Transactional;
 import org.example.toddlertimeapplication.model.Child;
 import org.example.toddlertimeapplication.repository.ChildRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Transactional
 public class ChildService {
 
     @Autowired
@@ -23,11 +25,10 @@ public class ChildService {
                 .orElseThrow(() -> new RuntimeException("Child not found with id: " + id));
     }
 
-    // Save or update child (for create and update operations)
-    public Child saveChild(Child child) {
-        return childRepository.save(child);
-    }
 
+    public void saveChild(Child child) {
+        childRepository.save(child);
+    }
     // Delete a child by ID
     public void deleteChild(Long id) {
         childRepository.deleteById(id);

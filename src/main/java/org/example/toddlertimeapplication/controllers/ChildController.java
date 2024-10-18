@@ -43,6 +43,10 @@ public class ChildController {
     @GetMapping("/new")
     public String showCreateChildForm(Model model) {
         Child child = new Child();
+
+        Parent parent = parentService.getAuthenticatedParent(); // You need to implement this
+        child.setParent(parent);
+
         model.addAttribute("child", child);
         model.addAttribute("parent", child.getParent());
         return "ChildRegistration";  // Thymeleaf template for child form
@@ -50,22 +54,37 @@ public class ChildController {
 
 
     @PostMapping("/save")
-    public String saveChild(@Valid @ModelAttribute("child") Child child, BindingResult result) {
+    public String saveChild(@Valid @ModelAttribute("child") Child child, BindingResult result, Model model) {
+        // If there are validation errors, return to the form
         if (result.hasErrors()) {
             return "ChildRegistration"; // Return to the form view if there are errors
         }
 
         try {
+            // The parentId is part of the child object now, no need for @RequestParam
+            Parent parent = child.getParent();
+            if (parent == null || parent.getId() == null) {
+                model.addAttribute("error", "Parent information is missing.");
+                return "ChildRegistration";
+            }
+
+            // Save the child and associate with parent
             childService.saveChild(child);
         } catch (Exception e) {
             // Log the error
             System.err.println("Error saving child: " + e.getMessage());
             e.printStackTrace();
-            return "ChildRegistration"; // Return to form on error
+            model.addAttribute("error", "An error occurred while saving the child's information.");
+            return "ChildRegistration"; // Return to the form in case of an error
         }
 
+        // Redirect after a successful save
         return "redirect:/parent/dashboard"; // Redirect after successful submission
     }
+
+
+
+
     // Display form to edit an existing child
     @GetMapping("/edit/{id}")
     public String showEditChildForm(@PathVariable Long id, Model model) {

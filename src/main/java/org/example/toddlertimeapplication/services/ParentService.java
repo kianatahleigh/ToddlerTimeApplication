@@ -4,6 +4,8 @@ package org.example.toddlertimeapplication.services;
 import org.example.toddlertimeapplication.model.Parent;
 import org.example.toddlertimeapplication.repository.ParentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -70,8 +72,27 @@ public class ParentService {
 
     public String generatePasswordResetToken(Parent parent) {
         // Logic for generating and storing the password reset token
-        return "reset-token"; // Replace with actual token generation logic
+        return "/forgot/password"; // Replace with actual token generation logic
     }
 
+    public Parent getAuthenticatedParent() {
+        // Get the authentication object from the SecurityContext
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            // Handle the case when no one is authenticated
+            throw new RuntimeException("No authenticated parent found");
+        }
+
+        // Assuming the email is used as the username in your UserDetails
+        String email = authentication.getName();
+
+        // Fetch the parent by email (or other identifier)
+        Optional<Parent> parent = parentRepository.findByEmail(email);
+
+        // Handle the case when the parent is not found
+        return parent.orElseThrow(() -> new RuntimeException("Authenticated parent not found"));
+    }
 }
+
+

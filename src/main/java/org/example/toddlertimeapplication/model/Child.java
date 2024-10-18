@@ -31,8 +31,9 @@ public class Child {
         @NotBlank(message = "Gender is required")
         private String gender;
 
+
         @ManyToOne
-        @JoinColumn(name = "parent_id")
+        @JoinColumn(name = "parent_id", nullable = false)
         private Parent parent;
 
         @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)
