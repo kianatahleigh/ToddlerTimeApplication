@@ -93,6 +93,11 @@ public class ParentService {
         // Handle the case when the parent is not found
         return parent.orElseThrow(() -> new RuntimeException("Authenticated parent not found"));
     }
+
+
+    public Parent getParentByEmail(String email) {
+        return parentRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("Parent not found"));
+    }
 }
 
 

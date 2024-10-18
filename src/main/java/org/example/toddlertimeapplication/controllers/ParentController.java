@@ -58,4 +58,10 @@ public class ParentController {
         return "HomePage";
     }
 
+    @GetMapping("/alarms") // Specify the URL mapping for the Alarm page
+    public String showAlarmPage(Model model) {
+
+        return "Alarm";
+    }
 }
+
