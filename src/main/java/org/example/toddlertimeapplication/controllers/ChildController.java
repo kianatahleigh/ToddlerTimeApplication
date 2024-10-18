@@ -61,11 +61,12 @@ public class ChildController {
         }
 
         try {
+            System.out.println("froms save child function " + child.getParent());
             // The parentId is part of the child object now, no need for @RequestParam
             Parent parent = child.getParent();
-            if (parent == null || parent.getId() == null) {
+            if (child.getParent() == null) {
                 model.addAttribute("error", "Parent information is missing.");
-                return "ChildRegistration";
+                return "ParentLogin";
             }
 
             // Save the child and associate with parent
@@ -81,7 +82,6 @@ public class ChildController {
         // Redirect after a successful save
         return "redirect:/parent/dashboard"; // Redirect after successful submission
     }
-
 
 
 
