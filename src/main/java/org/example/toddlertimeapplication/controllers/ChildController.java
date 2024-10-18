@@ -80,7 +80,7 @@ public class ChildController {
         }
 
         // Redirect after a successful save
-        return "redirect:/parent/dashboard"; // Redirect after successful submission
+        return "redirect:/parent/dashboard";// Redirect after successful submission
     }
 
 
@@ -127,4 +127,6 @@ public class ChildController {
         taskService.updateTaskStatus(taskId, status);
         return "redirect:/children/tasks";  // Redirect back to task hub after update
     }
+
+
 }
