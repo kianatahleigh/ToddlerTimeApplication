@@ -22,7 +22,7 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/", "/home", "/home/login", "/home/signup", "/forgot/password", "/css/**", "/js/**", "/images/**").permitAll()  // Public access
-                        .requestMatchers("/parent/**").hasRole("PARENT")  // Parent access
+                        .requestMatchers("/parent/**","/children/**").hasRole("PARENT")// Parent access
                         .anyRequest().authenticated())  // All other requests require authentication
 
                 .formLogin(formLogin -> formLogin

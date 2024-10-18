@@ -35,7 +35,7 @@ public class SignUpController {
 
         try {
             parentService.saveParent(parent);  // Password is encoded inside ParentService
-            return "redirect:/home/login"; // Redirect to login after successful signup
+            return "redirect:/child/new"; // Redirect to login after successful signup
         } catch (IllegalArgumentException e) {
             bindingResult.rejectValue("email", "emailExists", e.getMessage());
             return "SignUp"; // Return to signup page with error message

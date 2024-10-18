@@ -162,12 +162,12 @@
 
 <h1>Parent Signup - Children Information</h1>
 
-<form id="parentForm" th:action="@{/parent/signup}" th:object="${parentForm}" method="post" novalidate>
-    <div>
-        <label for="childrenCount">Number of Children:</label>
-        <input type="number" name="childrenCount" id="childrenCount" min="0" th:value="${parentForm.childrenCount}" required />
-        <button type="button" id="addChildrenBtn">Add Children</button>
-    </div>
+<form id="childForm" th:action="@{/children/save}" th:object="${child}" method="POST" novalidate>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <label for="numberOfChildren">Number of Children:</label>
+    <input type="number" name="numberOfChildren" id="numberOfChildren" min="0"
+           th:value="${parent != null ? parent.numberOfChildren : 0}" required />
+    <button type="button" id="addChildrenBtn">Add Children</button>
 
     <div id="childrenContainer"></div>
 
@@ -176,11 +176,11 @@
 
 <script>
     document.getElementById('addChildrenBtn').addEventListener('click', createChildFields);
-    document.getElementById('parentForm').addEventListener('submit', handleSubmit);
+    document.getElementById('childForm').addEventListener('submit', handleSubmit);
 
     function createChildFields() {
-        const childrenCountInput = document.getElementById("childrenCount");
-        const childrenCount = parseInt(childrenCountInput.value, 10);
+        const childrenCountInput = document.getElementById("numberOfChildren"); // Update to match your HTML
+        const childrenCount = parseInt(document.getElementById("numberOfChildren").value, 10);
         const container = document.getElementById("childrenContainer");
 
         // Clear any existing child fields
@@ -192,36 +192,36 @@
             childSection.className = "child-section";
 
             childSection.innerHTML = `
-                <h3>Child ${i}</h3>
-                <div>
-                    <label for="child_fname_${i}">First Name:</label>
-                    <input type="text" id="child_fname_${i}" name="children[${i - 1}].firstName" th:value="\${parentForm.children[${i - 1}].firstName}" required />
-                </div>
+            <h3>Child ${i}</h3>
+            <div>
+                <label for="child_fname_${i}">First Name:</label>
+                <input type="text" id="child_fname_${i}" name="children[${i - 1}].firstName" required />
+            </div>
 
-                <div>
-                    <label for="child_lname_${i}">Last Name:</label>
-                    <input type="text" id="child_lname_${i}" name="children[${i - 1}].lastName" th:value="\${parentForm.children[${i - 1}].lastName}" required />
-                </div>
+            <div>
+                <label for="child_lname_${i}">Last Name:</label>
+                <input type="text" id="child_lname_${i}" name="children[${i - 1}].lastName" required />
+            </div>
 
-                <div>
-                    <label for="child_birthday_${i}">Date of Birth:</label>
-                    <input type="date" id="child_birthday_${i}" name="children[${i - 1}].birthDate" th:value="\${parentForm.children[${i - 1}].birthDate}" required />
-                </div>
+            <div>
+                <label for="child_birthday_${i}">Date of Birth:</label>
+                <input type="date" id="child_birthday_${i}" name="children[${i - 1}].birthDate" required />
+            </div>
 
-                <div>
-                    <label for="child_age_${i}">Age:</label>
-                    <input type="number" id="child_age_${i}" name="children[${i - 1}].age" min="0" th:value="\${parentForm.children[${i - 1}].age}" required />
-                </div>
+            <div>
+                <label for="child_age_${i}">Age:</label>
+                <input type="number" id="child_age_${i}" name="children[${i - 1}].age" min="0" required />
+            </div>
 
-                <div>
-                    <label for="child_gender_${i}">Gender:</label>
-                    <select id="child_gender_${i}" name="children[${i - 1}].gender" th:value="\${parentForm.children[${i - 1}].gender}" required>
-                        <option value="">Select Gender</option>
-                        <option value="boy">Boy</option>
-                        <option value="girl">Girl</option>
-                    </select>
-                </div>
-            `;
+            <div>
+                <label for="child_gender_${i}">Gender:</label>
+                <select id="child_gender_${i}" name="children[${i - 1}].gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="boy">Boy</option>
+                    <option value="girl">Girl</option>
+                </select>
+            </div>
+        `;
 
             container.appendChild(childSection);
         }

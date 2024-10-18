@@ -37,6 +37,7 @@ public class ChildController {
     public String showCreateChildForm(Model model) {
         Child child = new Child();
         model.addAttribute("child", child);
+        model.addAttribute("parent", child.getParent());
         return "ChildRegistration";  // Thymeleaf template for child form
     }
 
@@ -44,7 +45,7 @@ public class ChildController {
     @PostMapping("/save")
     public String saveChild(@ModelAttribute("child") Child child) {
         childService.saveChild(child);
-        return "redirect:/children";  // Redirect to child list after saving
+        return "redirect:/parent/dashboard";  // Redirect to child list after saving
     }
 
     // Display form to edit an existing child
