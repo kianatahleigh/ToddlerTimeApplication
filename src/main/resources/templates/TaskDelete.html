@@ -40,7 +40,7 @@
     <p th:text="${task.description}"></p>
 
     <label>Assigned Child:</label>
-    <p th:text="${task.child.name}"></p>
+    <p th:text="${task.child.firstName + ' ' + task.child.lastName}"></p>
 
     <label>Status:</label>
     <p th:text="${task.status}"></p>
@@ -50,6 +50,6 @@
 <form th:action="@{/tasks/delete/{id}(id=${task.id})}" method="post">
     <button type="submit">Yes, Delete</button>
 </form>
-<a href="@{/tasks}">Cancel</a>
+<a th:href="@{/tasks/view}" class="btn btn-secondary">Cancel</a>
 </body>
 </html>
