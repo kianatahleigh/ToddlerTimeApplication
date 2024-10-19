@@ -149,11 +149,14 @@ public class TaskController {
     }
 
     // Optionally, you can add a method to show a child's task list
-    @GetMapping("/child/{id}")
-    public String listTasksForChild(@PathVariable Long id, Model model) {
-        List<Task> tasks = taskService.getTasksByChildId(id);  // Get tasks for the specified child
-        model.addAttribute("tasks", tasks);
-        model.addAttribute("child", childService.getChildById(id));  // Get the child to display their name
-        return "ChildTaskList";  // Return the view for displaying child's tasks
-    }
+        @GetMapping("/child/tasks/{id}")
+        public String listTasksForChild(@PathVariable Long id, Model model) {
+            Child child = childService.getChildById(id);
+            List<Task> tasks = taskService.getTasksByChildId(id);
+            model.addAttribute("child", child);
+            model.addAttribute("tasks", tasks);
+            return "ChildTask"; // Ensure this matches your Thymeleaf template name
+        }
+
+
 }

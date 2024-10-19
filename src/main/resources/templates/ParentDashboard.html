@@ -68,7 +68,7 @@
     <tr th:each="child : ${children}">
         <td th:text="${child.firstName + ' ' + child.lastName}">Child Name</td>
         <td>
-            <a th:href="@{/child/tasks/{id}(id=${child.id})}" class="button">View Tasks</a>
+            <a th:href="@{/tasks/child/tasks/{id}(id=${child.id})}" class="button">View Tasks</a>
         </td>
     </tr>
     </tbody>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Child's Tasks</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header>
+    <h1 th:text="'Tasks for ' + ${child.firstName} + ' ' + ${child.lastName}"></h1>
+</header>
+
+<section>
+    <div>
+        <h2>Task List</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Task Name</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="task : ${tasks}">
+                <td th:text="${task.title}"></td>
+                <td th:text="${task.description}"></td>
+                <td th:text="${task.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <a th:href="@{/tasks/new}">Create New Task</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <a th:href="@{/parent/dashboard}">Back to Parent Dashboard</a>
+</footer>
+</body>
+</html>
