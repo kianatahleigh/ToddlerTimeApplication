@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import org.example.toddlertimeapplication.model.Child;
 import org.example.toddlertimeapplication.model.Parent;
 import org.example.toddlertimeapplication.model.Task;
+import org.example.toddlertimeapplication.repository.ChildRepository;
+import org.example.toddlertimeapplication.repository.TaskRepository;
 import org.example.toddlertimeapplication.services.ParentService;
 import org.example.toddlertimeapplication.services.TaskService;
 import org.example.toddlertimeapplication.services.ChildService;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -30,6 +33,12 @@ public class TaskController {
     @Autowired
     private ParentService parentService;
 
+    @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private ChildRepository childRepository;
+
     // Parent view for listing all tasks
     @GetMapping("/view")
     public String listAllTasks(Model model) {
@@ -39,7 +48,7 @@ public class TaskController {
         String email = authentication.getName(); // Assuming the email is used as the username
         Parent loggedInParent = parentService.getParentByEmail(email); // Fetch parent by email
 
-        List<Task> tasks = taskService.getAllTasksByParentId(loggedInParent.getId()); 
+        List<Task> tasks = taskService.getAllTasksByParentId(loggedInParent.getId());
         model.addAttribute("tasks", tasks);
         model.addAttribute("loggedInParent", loggedInParent);
 
@@ -103,12 +112,26 @@ public class TaskController {
     }
 
     // Update an existing task
+    
     @PostMapping("/edit/{id}")
-    public String updateTask(@PathVariable Long id, @ModelAttribute Task task) {
-        task.setId(id);  // Set the id to update the correct task
-        taskService.saveTask(task);  // Save the updated task
-        return "redirect:/tasks/view";  // Redirect to the task list after updating
+    public String updateTask(@PathVariable Long id, @ModelAttribute Task task,
+                             @RequestParam Long childId, RedirectAttributes redirectAttributes) {
+        // Find the corresponding child by ID
+        Child child = childRepository.findById(childId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid child ID: " + childId));
+
+        // Set the child on the task
+        task.setChild(child);
+
+        // Save the task with the updated child
+        taskRepository.save(task);
+
+        // Redirect to the parent dashboard or task list after saving
+        redirectAttributes.addFlashAttribute("message", "Task updated successfully.");
+        return "redirect:/tasks/view";
     }
+
+
 
     // Show the delete task confirmation page
     @GetMapping("/delete/{id}")

@@ -55,12 +55,12 @@
 
     <label for="child">Assigned Child:</label>
     <select id="child" name="childId" required>
-        <option th:each="child : ${children}" th:value="${child.id}" th:text="${child.name}"
+        <option th:each="child : ${children}" th:value="${child.id}"  th:text="${child.firstName + ' ' + child.lastName}"
                 th:selected="${task.child.id == child.id}"></option>
     </select>
 
     <button type="submit">Update Task</button>
 </form>
-<a href="@{/tasks}">Back to Task List</a>
+<a href="@{/tasks/view}">Back to Task List</a>
 </body>
 </html>
