@@ -31,11 +31,18 @@ public class TaskController {
     private ParentService parentService;
 
     // Parent view for listing all tasks
-    // Parent view for listing all tasks
     @GetMapping("/view")
     public String listAllTasks(Model model) {
-        List<Task> tasks = taskService.getAllTasks();
+
+        // Get the currently authenticated parent
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName(); // Assuming the email is used as the username
+        Parent loggedInParent = parentService.getParentByEmail(email); // Fetch parent by email
+
+        List<Task> tasks = taskService.getAllTasksByParentId(loggedInParent.getId()); 
         model.addAttribute("tasks", tasks);
+        model.addAttribute("loggedInParent", loggedInParent);
+
         return "TaskList";  // View for listing tasks
     }
 

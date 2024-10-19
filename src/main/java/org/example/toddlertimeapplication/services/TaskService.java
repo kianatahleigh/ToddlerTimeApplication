@@ -8,6 +8,7 @@ import org.example.toddlertimeapplication.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +16,9 @@ public class TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private ChildService childService;
 
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
@@ -55,6 +59,15 @@ public class TaskService {
 
     public List<Task> getTasksByChildId(Long childId) {
         return taskRepository.findByChildId(childId);
+    }
+
+    public List<Task> getAllTasksByParentId(Long parentId) {
+        List<Child> children = childService.getChildrenByParentId(parentId); // Get all children for the parent
+        List<Task> tasks = new ArrayList<>();
+        for (Child child : children) {
+            tasks.addAll(getTasksByChildId(child.getId())); // Collect tasks for each child
+        }
+        return tasks;
     }
 
 }
