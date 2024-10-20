@@ -5,11 +5,17 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
+            background-color: #ffebcd; /* Light pink background */
             padding: 20px;
         }
         h1 {
-            color: #333;
+            color: #ff6347; /* Tomato red for main heading */
+        }
+        h2 {
+            color: #4682b4; /* Steel blue for subheadings */
+        }
+        h3 a {
+            color: #ff8c00; /* Dark orange for profile link */
         }
         .button-group {
             display: flex;
@@ -17,7 +23,7 @@
             margin-bottom: 20px;
         }
         .button {
-            background-color: #4CAF50;
+            background-color: #1e90ff; /* Dodger blue */
             color: white;
             padding: 10px 15px;
             text-decoration: none;
@@ -27,7 +33,7 @@
             transition: background-color 0.3s;
         }
         .button:hover {
-            background-color: #45a049;
+            background-color: #00bfff; /* Deep sky blue */
         }
         table {
             width: 100%;
@@ -39,20 +45,36 @@
             border: 1px solid #ddd;
         }
         th {
-            background-color: #ffcc00;
-            color: white;
+            background-color: #ffcc00; /* Bright yellow */
+            color: #333; /* Darker contrast text */
+        }
+        td {
+            background-color: #f0e68c; /* Khaki */
+        }
+        a {
+            display: inline-block;
+            font-size: 20px;
+            margin: 10px 0;
+            color: #8a2be2; /* Blue violet */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #dda0dd; /* Plum */
         }
     </style>
 </head>
 <body>
 
-<h1>Welcome to the Parent Dashboard, <span th:text="${parent.firstName + ' ' + parent.lastName}">Parent Name</span></h1>Name</span></h1>
+<h1>Welcome to the Parent Dashboard, <span th:text="${parent.firstName + ' ' + parent.lastName}">Parent Name</span></h1></span></h1>
+<h3><a th:href="@{/parent/profile}" class="profile-btn">Parent Profile</a></h3>
 
 <div class="button-group">
     <a href="/children/new" class="button">Add a Child/Children</a>
     <a href="/tasks/new" class="button">Create Task for a Child</a>
     <a href="/tasks/view" class="button">View Task List</a>
-    <a href="/alarms" class="button">Alarm Helper</a>
+    <a href="/children/list child" class="button">View Child List</a>
+    <a href="/parent/alarms" class="button">Alarm Helper</a>
 
 </div>
 

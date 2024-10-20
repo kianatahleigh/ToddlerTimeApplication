@@ -46,10 +46,9 @@
     <label for="status">Status:</label>
     <select id="status" name="status" required>
         <option th:value="${task.status}" th:text="${task.status}"></option>
-        <option th:value="'TODO'" th:text="'To Do'"></option>
         <option th:value="'IN_PROGRESS'" th:text="'In Progress'"></option>
         <option th:value="'COMPLETED'" th:text="'Completed'"></option>
-        <option th:value="'INCOMPLETED'" th:text="'Inompletee'"></option>
+        <option th:value="'INCOMPLETE'" th:text="'Incomplete'"></option>
         <option th:value="'CANCELLED'" th:text="'Cancelled'"></option>
     </select>
 

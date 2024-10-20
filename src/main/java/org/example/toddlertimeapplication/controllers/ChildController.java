@@ -129,4 +129,12 @@ public class ChildController {
     }
 
 
+    @GetMapping("/list child")
+
+    public String listChild(Model model) {
+        List<Child> children = childService.getChildrenByParentId(parentService.getAuthenticatedParent().getId());
+        model.addAttribute("children", children);
+        return "ChildList";
+    }
+
 }

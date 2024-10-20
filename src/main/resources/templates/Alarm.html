@@ -1,10 +1,438 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Toddler Time - Alarm</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shape Color Timer</title>
+    <style>
+        #responseContainer {
+            display: none; /* Hidden initially */
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .option-button {
+            background-color: transparent;
+            border: none;
+            font-size: 50px; /* Size for emoji buttons */
+            cursor: pointer;
+            margin: 0 10px; /* Space between buttons */
+        }
+        body {
+            font-family: 'Comic Sans MS', Arial, sans-serif;
+            background-color: #ffebcd; /* Soft pastel background */
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff8dc;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .selection {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        select, input[type="number"] {
+            padding: 10px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            border: 2px solid #ccc;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .timer-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .timer-inputs div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .buttons {
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        a {
+            display: inline-block;
+            font-size:20px;
+            margin: 10px 0;
+            color: #4682B4; /* Blue links for actions */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #1E90FF; /* Lighter blue on hover */
+        }
+
+        #shapeDisplay {
+            margin-top: 30px;
+            width: 200px;
+            height: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        .shape {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: background-color 0.5s;
+        }
+
+        .circle {
+            border-radius: 50%;
+            background-color: lightgray;
+        }
+
+        .square {
+            background-color: lightgray;
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 200px solid lightgray;
+            background-color: transparent;
+        }
+
+        .heart {
+            position: relative;
+            background-color: var(--shape-color, lightgray);
+            width: 100px;
+            height: 90px;
+            transform: rotate(-45deg);
+            margin: 50px auto;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 90px;
+            background-color: inherit; /* Use the same color as the parent */
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -50px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 50px;
+            top: 0;
+        }
+
+        .star, .hexagon, .diamond, .pentagon {
+            /* Existing styles or additional styles if needed */
+        }
+
+        @media (max-width: 600px) {
+            #shapeDisplay {
+                width: 150px;
+                height: 150px;
+            }
+
+            .timer-inputs {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            button {
+                margin: 10px 5px;
+            }
+        }
+    </style>
 </head>
 <body>
+
+<div class="container">
+    <h1>Shape Color Timer</h1>
+    <a th:href="@{/parent/dashboard}" class="dashboard-btn">Return to Dashboard</a>
+    <div class="selection">
+        <label for="shapeSelect">Choose a Shape:</label>
+        <select id="shapeSelect" th:field="*{shape}">
+            <option value="circle">Circle</option>
+            <option value="triangle">Triangle</option>
+            <option value="square">Square</option>
+            <option value="heart">Heart</option>
+            <option value="star">Star</option>
+            <option value="hexagon">Hexagon</option>
+            <option value="diamond">Diamond</option>
+            <option value="pentagon">Pentagon</option>
+        </select>
+    </div>
+
+    <div class="selection">
+        <label for="colorSelect">Choose a Color:</label>
+        <select id="colorSelect" th:field="*{color}">
+            <option value="red">Red</option>
+            <option value="orange">Orange</option>
+            <option value="yellow">Yellow</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <option value="pink">Pink</option>
+            <option value="purple">Purple</option>
+            <option value="lightgreen">Light Green</option>
+        </select>
+    </div>
+
+    <div class="selection">
+        <label>Set Timer:</label>
+        <div class="timer-inputs">
+            <div>
+                <input type="number" id="hoursInput" min="0" value="0" th:field="*{hours}">
+                <label for="hoursInput">Hours</label>
+            </div>
+            <div>
+                <input type="number" id="minutesInput" min="0" max="59" value="0" th:field="*{minutes}">
+                <label for="minutesInput">Minutes</label>
+            </div>
+            <div>
+                <input type="number" id="secondsInput" min="0" max="59" value="0" th:field="*{seconds}">
+                <label for="secondsInput">Seconds</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button id="startBtn">Start</button>
+        <button id="pauseBtn" disabled>Pause</button>
+        <button id="cancelBtn" disabled>Cancel</button>
+    </div>
+
+    <div id="shapeDisplay">
+        <!-- Shapes will be rendered here -->
+    </div>
+</div>
+
+
+<script>
+    const shapeSelect = document.getElementById('shapeSelect');
+    const colorSelect = document.getElementById('colorSelect');
+    const hoursInput = document.getElementById('hoursInput');
+    const minutesInput = document.getElementById('minutesInput');
+    const secondsInput = document.getElementById('secondsInput');
+    const startBtn = document.getElementById('startBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const shapeDisplay = document.getElementById('shapeDisplay');
+
+    let timer;
+    let remainingTime;
+    let isPaused = false;
+    let selectedShape = '';
+    let selectedColor = '';
+    let originalShapeHTML = '';
+
+    function createShape(shape) {
+        shapeDisplay.innerHTML = '';
+        if (shape === 'star' || shape === 'hexagon' || shape === 'diamond' || shape === 'pentagon' || shape === 'triangle') {
+
+            const svgNS = "http://www.w3.org/2000/svg";
+            let svg = document.createElementNS(svgNS, "svg");
+            svg.setAttribute("width", "200");
+            svg.setAttribute("height", "200");
+
+            let shapeElement;
+
+            switch(shape) {
+                case 'triangle':
+                    shapeElement = document.createElementNS(svgNS, "polygon");
+                    shapeElement.setAttribute("points", "100,10 190,190 10,190"); // Points for the triangle
+                    break;
+                case 'star':
+                    shapeElement = document.createElementNS(svgNS, "polygon");
+                    shapeElement.setAttribute("points", "100,10 120,70 180,70 130,110 150,170 100,130 50,170 70,110 20,70 80,70");
+                    break;
+                case 'hexagon':
+                    shapeElement = document.createElementNS(svgNS, "polygon");
+                    shapeElement.setAttribute("points", "100,10 170,55 170,145 100,190 30,145 30,55");
+                    break;
+                case 'diamond':
+                    shapeElement = document.createElementNS(svgNS, "polygon");
+                    shapeElement.setAttribute("points", "100,10 190,100 100,190 10,100");
+                    break;
+                case 'pentagon':
+                    shapeElement = document.createElementNS(svgNS, "polygon");
+                    shapeElement.setAttribute("points", "100,10 190,80 150,190 50,190 10,80");
+                    break;
+                default:
+                    break;
+            }
+
+            if (shapeElement) {
+                shapeElement.setAttribute("fill", "lightgray");
+                shapeElement.setAttribute("stroke", "#333");
+                shapeElement.setAttribute("stroke-width", "2");
+                svg.appendChild(shapeElement);
+                shapeDisplay.appendChild(svg);
+            }
+
+        } else if (shape === 'heart') {
+
+            const heart = document.createElement('div');
+            heart.classList.add('shape', 'heart');
+            shapeDisplay.appendChild(heart);
+        } else {
+
+            const shapeDiv = document.createElement('div');
+            shapeDiv.classList.add('shape', shape);
+            shapeDisplay.appendChild(shapeDiv);
+        }
+
+        originalShapeHTML = shapeDisplay.innerHTML;
+    }
+
+    function updateShapeColor(color) {
+        const shapeElements = shapeDisplay.querySelectorAll('.shape, polygon');
+
+        shapeElements.forEach(elem => {
+            if (elem.classList.contains('heart')) {
+                // Set the CSS variable --shape-color for the heart
+                elem.style.setProperty('--shape-color', color);
+            } else if (elem.tagName.toLowerCase() === 'polygon') {
+                // For SVG shapes, set the fill attribute
+                elem.setAttribute('fill', color);
+            } else {
+                // For other shapes, set the background color directly
+                elem.style.backgroundColor = color;
+            }
+        });
+    }
+
+    function startTimer(duration) {
+        remainingTime = duration;
+        updateButtons(true);
+        timer = setInterval(() => {
+            if (!isPaused) {
+                remainingTime--;
+                updateTimerDisplay();
+                if (remainingTime <= 0) {
+                    clearInterval(timer);
+                    updateButtons(false);
+                    updateShapeColor(selectedColor);
+                    showCompletionOptions();
+
+                }
+            }
+        }, 1000);
+    }
+
+
+
+
+    function resetTimer() {
+        // Reset timer and UI
+        clearInterval(timer);
+        timer = null;
+        remainingTime = 0;
+        isPaused = false;
+        pauseBtn.textContent = 'Pause';
+        updateButtons(false);
+        shapeDisplay.innerHTML = originalShapeHTML;
+        const responseContainer = document.getElementById('responseContainer');
+        responseContainer.style.display = 'none';
+    }
+
+    function updateTimerDisplay() {
+        // Optional: Implement a display for the remaining time
+        // For now, we keep the UI simple without showing the countdown
+    }
+
+    function pauseTimer() {
+        isPaused = !isPaused;
+        pauseBtn.textContent = isPaused ? 'Resume' : 'Pause';
+    }
+
+    function cancelTimer() {
+        clearInterval(timer);
+        updateButtons(false);
+        shapeDisplay.innerHTML = originalShapeHTML;
+    }
+
+    function updateButtons(isRunning) {
+        startBtn.disabled = isRunning;
+        pauseBtn.disabled = !isRunning;
+        cancelBtn.disabled = !isRunning;
+    }
+
+    startBtn.addEventListener('click', () => {
+        selectedShape = shapeSelect.value;
+        selectedColor = colorSelect.value;
+        const hours = parseInt(hoursInput.value) || 0;
+        const minutes = parseInt(minutesInput.value) || 0;
+        const seconds = parseInt(secondsInput.value) || 0;
+        const totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+        if (!selectedShape || !selectedColor || totalSeconds <= 0) {
+            alert("Please select a shape, color, and enter a valid time.");
+            return;
+        }
+
+        createShape(selectedShape);
+        startTimer(totalSeconds);
+    });
+
+    pauseBtn.addEventListener('click', () => {
+        pauseTimer();
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        cancelTimer();
+    });
+
+
+    createShape(shapeSelect.value);
+
+
+    shapeSelect.addEventListener('change', () => {
+        if (!timer) {
+            createShape(shapeSelect.value);
+        }
+    });
+</script>
 
 </body>
 </html>

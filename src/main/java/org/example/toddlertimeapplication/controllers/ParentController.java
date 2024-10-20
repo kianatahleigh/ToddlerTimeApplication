@@ -58,10 +58,20 @@ public class ParentController {
         return "HomePage";
     }
 
-    @GetMapping("/alarms") // Specify the URL mapping for the Alarm page
-    public String showAlarmPage(Model model) {
 
-        return "Alarm";
+
+
+    @GetMapping("/alarms") // Replace with your actual endpoint
+    public String showShapeColorTimer(Model model) {
+        // Initialize model attributes with default values
+        model.addAttribute("shape", "circle");
+        model.addAttribute("color", "red");
+        model.addAttribute("hours", 0);
+        model.addAttribute("minutes", 0);
+        model.addAttribute("seconds", 0);
+
+        return "Alarm"; // Replace with your actual HTML template name
     }
 }
+
 

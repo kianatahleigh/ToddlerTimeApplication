@@ -84,6 +84,19 @@
             transform: scale(1.1);
         }
 
+        a {
+            display: inline-block;
+            font-size:20px;
+            margin: 10px 0;
+            color: white; /* Blue links for actions */
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            color: antiquewhite; /* Lighter blue on hover */
+        }
+
+
         /* Fun background shapes */
         .shapes-container {
             position: absolute;
@@ -209,6 +222,8 @@
     <br>
     <input type="hidden" th:field="*{parent.id}" />
     <button type="submit">Submit</button>
+<br>
+    <a th:href="@{/parent/dashboard}" class="dashboard-btn">Return to Dashboard</a>
 </form>
 
 </body>

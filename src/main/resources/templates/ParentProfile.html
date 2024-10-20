@@ -2,9 +2,64 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Parent Profile</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9; /* Light background */
+            color: #333; /* Dark text for readability */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #ff6347; /* Tomato color for header */
+            font-size: 2.5em; /* Larger font size */
+        }
+
+        h3 {
+            color: #4682b4; /* Steel blue color */
+            font-size: 1.8em;
+        }
+
+        p {
+            background-color: #e0f7fa; /* Light blue background */
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #32cd32; /* Lime green for children section */
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none; /* No bullets for list */
+            padding: 0;
+        }
+
+        li {
+            background-color: #ffe4e1; /* Light pink background for list items */
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s; /* Smooth hover effect */
+        }
+
+        li:hover {
+            transform: scale(1.02); /* Slightly enlarge on hover */
+        }
+    </style>
 </head>
 <body>
 <h1>Profile for: <span th:text="${parent.firstName} + ' ' + ${parent.lastName}"></span></h1>
+<h3>Parent Profile</h3>
+
 <p>Email: <span th:text="${parent.email}"></span></p>
 <p>Phone Number: <span th:text="${parent.phoneNumber}"></span></p>
 <p>Date of Birth: <span th:text="${parent.dateOfBirth}"></span></p>
@@ -14,9 +69,11 @@
     <li th:each="child : ${parent.children}">
         <strong th:text="${child.firstName} + ' ' + ${child.lastName}"></strong> -
         Date of Birth: <span th:text="${child.dateOfBirth}"></span>,
-        Age: <span th:text="${child.calculateAge()}"></span>,
+        Age: <span th:text="${child.age}"></span>,
         Gender: <span th:text="${child.gender}"></span>
     </li>
 </ul>
+
+<a th:href="@{/parent/dashboard}" class="dashboard-btn">Return to Dashboard</a>
 </body>
 </html>
