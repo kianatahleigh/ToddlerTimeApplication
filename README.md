@@ -93,7 +93,7 @@ For further reference, please consider the following sections:
 - Visualize alarms and timers with fun, shape-based representations as the child completes tasks.
 
 ### Forgot Password
-- If you forget your password, navigate to the **Forgot Password** page, enter your registered email, and receive a password reset link.
+- If you forget your password, navigate to the **Forgot Password** page, enter your registered email, to receive a reset link.(visual only for now)
 
 ## System Requirements
 - **Java** 17+
@@ -109,7 +109,8 @@ We welcome contributions! If you'd like to contribute to **Toddler Time**, pleas
 ## Known Issues
 
 - Timer visuals need optimization for a smoother visual transition.
-- The `numberOfChildren` section needs to be optimized to accurately reflect the data visible to users.
+- The `numberOfChildren` section needs to be optimized to accurately reflect the data visible to users as in the number of children a user has.
+- Forgot Password page needs to be updated to send a reset link to user's registered email.
 
 
 ## Author
