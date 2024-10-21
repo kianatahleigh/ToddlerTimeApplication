@@ -111,6 +111,7 @@ We welcome contributions! If you'd like to contribute to **Toddler Time**, pleas
 - Timer visuals need optimization for a smoother visual transition.
 - The `numberOfChildren` section needs to be optimized to accurately reflect the data visible to users as in the number of children a user has.
 - Forgot Password page needs to be updated to send a reset link to user's registered email.
+- Task status needs optimization to update to 'IN PROGRESS' as default once task is created.
 
 
 ## Author
