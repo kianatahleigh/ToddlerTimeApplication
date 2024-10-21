@@ -80,7 +80,7 @@ For further reference, please consider the following sections:
      spring.datasource.password=your_password
      ```
    
-## Open your browser and navigate to http://localhost:8080/home.
+## Open your browser and navigate to http://localhost:8080.
 
 
 ## Usage
